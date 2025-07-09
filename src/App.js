@@ -16,13 +16,15 @@ function App() {
     const fetchBusinessNews = async () => {
       try {
         const response = await fetch(
-          `https://newsapi.org/v2/top-headlines?category=business&country=us&pageSize=100&apiKey=633d8cf2d47e45308516f82f2913084b`
+          `https://gnews.io/api/v4/top-headlines?category=business&lang=en&country=us&max=100&apikey=9664b0b77e0fc349fc2c230fff971548`
         );
         const data = await response.json();
-        if (data.status === 'ok') {
+
+        // GNews does not use `status: 'ok'`
+        if (Array.isArray(data.articles)) {
           setArticles(data.articles);
         } else {
-          console.error('API error:', data);
+          console.error('Unexpected API format:', data);
         }
       } catch (err) {
         console.error('Network error:', err);
@@ -38,7 +40,7 @@ function App() {
         {isMobile ? (
           <div className="mobile-blocker">
             <h2>This site is best viewed on a desktop or larger screen.</h2>
-            <p>Please visit bizdaily reports using a laptop, desktop, or tablet.</p>
+            <p>Please visit Bizdaily Reports using a laptop, desktop, or tablet.</p>
           </div>
         ) : (
           <>

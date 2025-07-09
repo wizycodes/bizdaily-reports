@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import './SearchResults.css';
+import fallbackImage from '../Assets/fallbackImage.jpg';
 
 function SearchResults() {
   const location = useLocation();
@@ -19,7 +20,9 @@ function SearchResults() {
 
   return (
     <div className="search-container">
-      <h2>Search results for: <em>{query}</em></h2>
+      <h2>
+        Search results for: <em>{query}</em>
+      </h2>
 
       {results.length === 0 ? (
         <p>No matching articles found.</p>
@@ -27,7 +30,7 @@ function SearchResults() {
         results.map((article, index) => (
           <div className="related-article" key={index}>
             <img
-              src={article.urlToImage || require('../Assets/fallbackImage.jpg')}
+              src={article.image || fallbackImage}
               alt={article.title}
             />
             <div className="related-info">
@@ -38,7 +41,9 @@ function SearchResults() {
                   navigate(`/article/${index}`, {
                     state: {
                       article,
-                      related: results.filter((a) => a !== article).slice(0, 5),
+                      related: results
+                        .filter((a) => a !== article)
+                        .slice(0, 5),
                     },
                   })
                 }

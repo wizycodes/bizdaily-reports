@@ -12,7 +12,7 @@ function Article() {
   const [related, setRelated] = useState(location.state?.related || []);
 
   useEffect(() => {
-    // Re-run this whenever a new article is passed via navigation
+    // Re-run when new article is passed via navigation
     setArticle(location.state?.article || null);
     setRelated(location.state?.related || []);
     window.scrollTo(0, 0); // Scroll to top on new article load
@@ -28,11 +28,13 @@ function Article() {
     );
   }
 
-  // Clean up API text
+  // Clean up trailing "[xxxx chars]" text
   const cleanContent = (text) =>
-    text?.replace(/\[\+\d+\schars\]/, '').trim() || 'No content available.';
+    text?.replace(/\s?\[\+?\d+\s?chars\]/gi, '').trim() || '';
 
-  const fullText = cleanContent(article.content || article.description);
+  const fullText = cleanContent(article.content);
+  const fallbackText = cleanContent(article.description);
+  const displayText = fullText.length > 100 ? fullText : fallbackText || 'No content available.';
 
   return (
     <div className="article-layout">
@@ -40,22 +42,22 @@ function Article() {
         <h1>{article.title}</h1>
 
         <div className="article-meta">
-          <span>By {article.author || 'Unknown'}</span>
+          <span>By {article.source?.name || 'Unknown'}</span>
           <span>•</span>
           <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
         </div>
 
-        {article.urlToImage && (
+        {article.image && (
           <img
             className="article-image"
-            src={article.urlToImage || fallbackImage}
+            src={article.image || fallbackImage}
             alt={article.title}
           />
         )}
 
         <div
           className="article-body"
-          dangerouslySetInnerHTML={{ __html: fullText }}
+          dangerouslySetInnerHTML={{ __html: displayText }}
         />
 
         <a
@@ -78,7 +80,7 @@ function Article() {
           {related.map((item, idx) => (
             <div className="related-article" key={idx}>
               <img
-                src={item.urlToImage || fallbackImage}
+                src={item.image || fallbackImage}
                 alt={item.title}
               />
               <div className="related-info">

@@ -13,10 +13,10 @@ function Home({ articles }) {
 
   // Find first valid featured article (must have image & description)
   const featuredArticle = articles.find(
-    (article) => article.urlToImage && article.description
+    (article) => article.image && article.description
   );
 
-  // Remove featuredArticle from list before sending to slider
+  // Filter out the featured article from the rest
   const latestArticles = articles.filter((a) => a !== featuredArticle);
 
   return (
@@ -24,7 +24,7 @@ function Home({ articles }) {
       {featuredArticle && (
         <section className="featured">
           <img
-            src={featuredArticle.urlToImage || fallbackImage}
+            src={featuredArticle.image || fallbackImage}
             alt="Featured"
           />
           <div className="featured-text">

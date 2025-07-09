@@ -44,7 +44,7 @@ function LatestNewsSlider({ articles }) {
       <div className="latest-grid">
         {getVisibleArticles().map((article, index) => (
           <div key={index} className="latest-card">
-            <img src={article.urlToImage || fallbackImage} alt={article.title} />
+            <img src={article.image || fallbackImage} alt={article.title} />
             <h4>{article.title}</h4>
             <Link
               to={`/article/${currentSlide * itemsPerPage + index}`}
@@ -54,7 +54,9 @@ function LatestNewsSlider({ articles }) {
                   .filter((a) =>
                     a.title !== article.title &&
                     (a.source.name === article.source.name ||
-                    a.title.toLowerCase().includes(article.title.split(' ')[0].toLowerCase()))
+                      a.title.toLowerCase().includes(
+                        article.title.split(' ')[0].toLowerCase()
+                      ))
                   )
                   .slice(0, 5),
               }}
@@ -62,8 +64,6 @@ function LatestNewsSlider({ articles }) {
             >
               Read more
             </Link>
-
-
           </div>
         ))}
       </div>
