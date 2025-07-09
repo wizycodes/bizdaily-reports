@@ -1,0 +1,130 @@
+.navbar {
+  background-color: #0d1117;
+  padding: 15px 20px;
+  color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  color: #fff;
+}
+
+.navbar-logo img {
+  height: 50px; /* Increased logo size */
+  margin-bottom: 4px;
+}
+
+.tagline {
+  font-size: 14px;
+  color: #ccc;
+  margin-top: -4px;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  margin: 0;
+  align-items: center;
+}
+
+.navbar-links li a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease-in-out;
+}
+
+.navbar-links li a:hover {
+  color: #f97316;
+}
+
+.nav-item {
+  color: #ffffff;
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #1f2937;
+}
+
+.nav-item.active {
+  background-color: #f97316;
+  color: #ffffff;
+}
+
+.nav-item.active:hover {
+  color: #ffffff;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  position: relative;
+  transition: width 0.4s ease;
+  width: 30px;
+  overflow: hidden;
+  height: 36px;
+}
+
+.search-form.expanded {
+  width: 180px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 6px 28px 6px 10px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.clear-btn {
+  position: absolute;
+  right: 6px;
+  font-size: 18px;
+  color: #999;
+  cursor: pointer;
+  user-select: none;
+}
+
+.clear-btn:hover {
+  color: #333;
+}

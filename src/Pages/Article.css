@@ -1,0 +1,161 @@
+.article-layout {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+}
+
+.article-main {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 40px;
+}
+
+.article-meta {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.article-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+.article-body {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.read-more {
+  display: inline-block;
+  color: #f97316;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.read-more:hover {
+  text-decoration: underline;
+}
+
+.back-link {
+  color: #f97316;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.related-section {
+  background-color: #f7f7f7;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.related-section h3 {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.related-article {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.related-article img {
+  width: 120px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.related-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.related-info h4 {
+  font-size: 16px;
+  margin: 0 0 8px;
+}
+
+.related-info button {
+  background: none;
+  border: none;
+  color: #f97316;
+  cursor: pointer;
+  padding: 0;
+  font-weight: bold;
+}
+
+/* Style for lists inside article body */
+.article-body ul {
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.article-body li {
+  list-style-type: disc;
+  margin-bottom: 6px;
+  font-size: 16px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Style bold/strong tags */
+.article-body strong,
+.article-body b {
+  font-weight: 600;
+  color: #111;
+}
+
+/* Style headings (in case the API returns them) */
+.article-body h1,
+.article-body h2,
+.article-body h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: #111827;
+}
+
+.article-body p {
+  margin-bottom: 16px;
+}
+
+/* Style links inside article content */
+.article-body a {
+  color: #f97316;
+  text-decoration: underline;
+}
+
+.article-body a:hover {
+  text-decoration: none;
+}
+
+.article-body ol {
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.article-body ol li {
+  list-style-type: decimal;
+  margin-bottom: 6px;
+  font-size: 16px;
+}

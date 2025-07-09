@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  #root > * {
+    display: none;
+  }
+
+  .mobile-blocker {
+    display: block;
+    text-align: center;
+    padding: 50px;
+    font-size: 18px;
+    color: #333;
+    background-color: #f8f8f8;
+  }
+}
