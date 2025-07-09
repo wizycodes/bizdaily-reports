@@ -19,8 +19,7 @@ function App() {
           `https://gnews.io/api/v4/top-headlines?category=business&lang=en&country=us&max=100&apikey=9664b0b77e0fc349fc2c230fff971548`
         );
         const data = await response.json();
-
-        // GNews does not use `status: 'ok'`
+        
         if (Array.isArray(data.articles)) {
           setArticles(data.articles);
         } else {
