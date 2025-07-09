@@ -20,7 +20,7 @@ function Footer() {
         <a href="https://facebook.com/" target="_blank" rel="noopener noreferrer">
           <img src={facebook} alt="Facebbok" />
         </a>
-        <a href="https://bizdailyreports.com" target="_blank" rel="noopener noreferrer">
+        <a href="https://bizdaily-reports.vercel.app/" target="_blank" rel="noopener noreferrer">
           <img src={website} alt="Website" />
         </a>
       </div>
