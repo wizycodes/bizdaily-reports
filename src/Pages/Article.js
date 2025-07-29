@@ -1,22 +1,44 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Article.css';
 import ShimmerLoader from '../Components/ShimmerLoader';
 import fallbackImage from '../Assets/fallbackImage.jpg';
+import { useArticle } from '../Context/ArticleContext'; 
+import clock from '../Assets/time.png'
 
 function Article() {
-  const location = useLocation();
+  const { selectedArticle } = useArticle(); 
   const navigate = useNavigate();
-
-  const [article, setArticle] = useState(location.state?.article || null);
-  const [related, setRelated] = useState(location.state?.related || []);
+  const { id } = useParams(); // id will be article title
+  const [article, setArticle] = useState(null);
+  const [related, setRelated] = useState([]);
 
   useEffect(() => {
-    // Re-run when new article is passed via navigation
-    setArticle(location.state?.article || null);
-    setRelated(location.state?.related || []);
-    window.scrollTo(0, 0); // Scroll to top on new article load
-  }, [location.state]);
+    const stored = localStorage.getItem('bizdaily_selected_article');
+    
+    if (selectedArticle?.article && selectedArticle.article.title === decodeURIComponent(id)) {
+      setArticle(selectedArticle.article);
+      setRelated(selectedArticle.related || []);
+    } else if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed.article?.title === decodeURIComponent(id)) {
+          setArticle(parsed.article);
+          setRelated(parsed.related || []);
+        } else {
+          setArticle(null);
+          setRelated([]);
+        }
+      } catch (err) {
+        console.error('Failed to parse saved article:', err);
+      }
+    } else {
+      setArticle(null);
+      setRelated([]);
+    }
+
+    window.scrollTo(0, 0);
+  }, [id, selectedArticle]);
 
   if (!article) {
     return (
@@ -28,13 +50,68 @@ function Article() {
     );
   }
 
-  // Clean up trailing "[xxxx chars]" text
-  const cleanContent = (text) =>
-    text?.replace(/\s?\[\+?\d+\s?chars\]/gi, '').trim() || '';
+  const rawText = article.content || article.contentSnippet || 'No content available.';
+  const cleanText = rawText.replace(/\s?\[\+?\d+\s?chars\]/gi, '').trim();
+  const displayText = cleanText.split(/\.\s+|\n+/).map(p => p.trim()).filter(Boolean);
 
-  const fullText = cleanContent(article.content);
-  const fallbackText = cleanContent(article.description);
-  const displayText = fullText.length > 100 ? fullText : fallbackText || 'No content available.';
+  const formatDate = (dateStr) => {
+    const date = new Date(dateStr);
+    if (isNaN(date.getTime())) return 'Unknown date';
+
+    const day = date.getDate();
+    const month = date.toLocaleString('en-US', { month: 'long' });
+    const year = date.getFullYear();
+
+    const getOrdinal = (n) => {
+      if (n > 3 && n < 21) return 'th';
+      switch (n % 10) {
+        case 1: return 'st';
+        case 2: return 'nd';
+        case 3: return 'rd';
+        default: return 'th';
+      }
+    };
+
+    return `${day}${getOrdinal(day)} ${month}, ${year}`;
+  };
+
+  const getRelativeTime = (dateStr) => {
+    const now = new Date();
+    const published = new Date(dateStr);
+    if (isNaN(published.getTime())) return 'Unknown time';
+
+    const diffMs = now - published;
+    const diffSec = Math.floor(diffMs / 1000);
+    const diffMin = Math.floor(diffSec / 60);
+    const diffHrs = Math.floor(diffMin / 60);
+    const diffDays = Math.floor(diffHrs / 24);
+    const diffWeeks = Math.floor(diffDays / 7);
+    const diffMonths = Math.floor(diffDays / 30);
+    const diffYears = Math.floor(diffDays / 365);
+
+    if (diffSec < 60) return 'just now';
+    if (diffMin < 60) return `${diffMin} minute${diffMin > 1 ? 's' : ''} ago`;
+    if (diffHrs < 24) {
+      const remainderMin = diffMin % 60;
+      return remainderMin > 0
+        ? `${diffHrs} hour${diffHrs > 1 ? 's' : ''}, ${remainderMin} minute${remainderMin > 1 ? 's' : ''} ago`
+        : `${diffHrs} hour${diffHrs > 1 ? 's' : ''} ago`;
+    }
+    if (diffDays < 7) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    if (diffWeeks < 4) return `${diffWeeks} week${diffWeeks > 1 ? 's' : ''} ago`;
+    if (diffMonths < 12) return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+    return `${diffYears} year${diffYears > 1 ? 's' : ''} ago`;
+  };
+
+  const getImage = (a) => a.image || a.enclosure?.url || fallbackImage;
+
+  const handleRelatedClick = (item) => {
+    const newRelated = related.filter((a) => a !== item);
+    const data = { article: item, related: newRelated };
+
+    localStorage.setItem('bizdaily_selected_article', JSON.stringify(data));
+    navigate(`/article/${encodeURIComponent(item.title)}`);
+  };
 
   return (
     <div className="article-layout">
@@ -42,26 +119,30 @@ function Article() {
         <h1>{article.title}</h1>
 
         <div className="article-meta">
-          <span>By {article.source?.name || 'Unknown'}</span>
-          <span>•</span>
-          <span>{new Date(article.publishedAt).toLocaleDateString()}</span>
+          <div className="meta-top">
+            By {article.source || 'Unknown Source'} • {formatDate(article.pubDate || article.publish_date)}
+          </div>
+          <div className="meta-time">
+            <img src={clock} style={{width: '20px', height: '20px'}} alt='clock'></img>
+            {getRelativeTime(article.pubDate || article.publish_date)}
+          </div>
         </div>
 
-        {article.image && (
-          <img
-            className="article-image"
-            src={article.image || fallbackImage}
-            alt={article.title}
-          />
-        )}
-
-        <div
-          className="article-body"
-          dangerouslySetInnerHTML={{ __html: displayText }}
+        <img
+          className="article-image"
+          src={getImage(article)}
+          alt={article.title}
+          onError={(e) => (e.target.src = fallbackImage)}
         />
 
+        <div className="article-body">
+          {displayText.map((para, idx) => (
+            <p key={idx}>{para.endsWith('.') ? para : `${para}.`}</p>
+          ))}
+        </div>
+
         <a
-          href={article.url}
+          href={article.link || article.url}
           target="_blank"
           rel="noopener noreferrer"
           className="read-more"
@@ -78,26 +159,25 @@ function Article() {
         <div className="related-section">
           <h3>YOU MAY ALSO LIKE</h3>
           {related.map((item, idx) => (
-            <div className="related-article" key={idx}>
-              <img
-                src={item.image || fallbackImage}
-                alt={item.title}
-              />
-              <div className="related-info">
-                <h4>{item.title}</h4>
-                <button
-                  onClick={() =>
-                    navigate(`/article/${idx}`, {
-                      state: {
-                        article: item,
-                        related: related.filter((a) => a !== item),
-                      },
-                    })
-                  }
-                >
-                  Read more
-                </button>
+            <div key={idx}
+              onClick={() => handleRelatedClick(item)}
+            >
+              <div className="related-article">
+                <img
+                  src={getImage(item)}
+                  alt={item.title}
+                  onError={(e) => (e.target.src = fallbackImage)}
+                />
+                <div className="related-info">
+                  <h4>{item.title}</h4>
+                  <p className="related-date">{formatDate(item.pubDate || item.publish_date)}</p>
+                  <button onClick={() => handleRelatedClick(item)}>Read more</button>
+                </div>
               </div>
+
+              {idx !== related.length - 1 && (
+                <div className="related-divider"></div>
+              )}
             </div>
           ))}
         </div>

@@ -40,3 +40,10 @@
   font-weight: bold;
   font-size: 14px;
 }
+
+.result-divider {
+  height: 1px;
+  background-color: #ef4444; 
+  width: 60%; 
+  margin: 10px 0 20px 120px; 
+}

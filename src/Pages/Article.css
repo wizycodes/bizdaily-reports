@@ -6,7 +6,7 @@
 
 .article-main {
   background: #fff;
-  padding: 20px;
+  padding: 0 20px;
   border-radius: 8px;
   margin-bottom: 40px;
 }
@@ -16,7 +16,24 @@
   color: #777;
   margin-bottom: 15px;
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.meta-top {
+  display: inline-block;
+}
+
+.meta-time img {
+  margin-right: 4px;
+}
+
+.meta-time {
+  font-size: 0.9rem;
+  color: #777;
+  margin-left: 0;
+  display: flex;
   align-items: center;
 }
 
@@ -28,10 +45,13 @@
 }
 
 .article-body {
+  text-align: left;
   font-size: 16px;
   line-height: 1.6;
-  margin-bottom: 20px;
+  color: #333;
+  margin-top: 20px;
 }
+
 
 .read-more {
   display: inline-block;
@@ -72,11 +92,17 @@
   gap: 15px;
   margin-bottom: 15px;
   align-items: flex-start;
+  cursor: pointer;
+}
+
+.related-article:hover {
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .related-article img {
   width: 120px;
-  height: 80px;
+  height: 100px;
   object-fit: cover;
   border-radius: 4px;
 }
@@ -85,12 +111,16 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: left;
+  align-items: flex-start;
+  margin-left: 20px;
 }
 
 .related-info h4 {
+  text-align: left;
   font-size: 16px;
   margin: 0 0 8px;
+  max-width: 400px;
 }
 
 .related-info button {
@@ -102,7 +132,12 @@
   font-weight: bold;
 }
 
-/* Style for lists inside article body */
+.related-info .related-date {
+  font-size: 13px;
+  color: #777;
+  margin-bottom: 6px;
+}
+
 .article-body ul {
   padding-left: 20px;
   margin-top: 10px;
@@ -117,14 +152,12 @@
   line-height: 1.6;
 }
 
-/* Style bold/strong tags */
 .article-body strong,
 .article-body b {
   font-weight: 600;
   color: #111;
 }
 
-/* Style headings (in case the API returns them) */
 .article-body h1,
 .article-body h2,
 .article-body h3 {
@@ -138,7 +171,6 @@
   margin-bottom: 16px;
 }
 
-/* Style links inside article content */
 .article-body a {
   color: #f97316;
   text-decoration: underline;
@@ -159,3 +191,11 @@
   margin-bottom: 6px;
   font-size: 16px;
 }
+
+.related-divider {
+  height: 1px;
+  background-color: #ef4444; /* Tailwind's red-500 */
+  width: 60%; /* adjust as needed */
+  margin: 10px 0 20px 120px; /* aligns with image size (120px) */
+}
+

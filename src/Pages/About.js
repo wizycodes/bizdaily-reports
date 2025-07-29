@@ -48,7 +48,8 @@ function About() {
         <h2>About Bizdaily Reports</h2>
         <p>
           Bizdaily Reports is your trusted source for real-time, reliable, and curated business news.
-          Our mission is to keep professionals, investors, and enthusiasts informed with up to date headlines that matter.
+          Our mission is to keep professionals, investors, and enthusiasts informed with up to date 
+          business headline news that matters.
         </p>
       </section>
 

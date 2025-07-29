@@ -1,25 +1,47 @@
 .latest-slider {
   padding: 20px;
   background-color: #f9f9f9;
+  position: relative;
 }
 
-.slider-controls {
+.latest-slider-container {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
   gap: 10px;
-  margin-bottom: 10px;
 }
 
-.slider-controls button {
-  font-size: 18px;
-  padding: 4px 10px;
+.arrow-button {
+  font-size: 20px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 10px;
+  border-radius: 4px;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: background-color 0.2s ease;
+  height: fit-content;
+}
+
+.arrow-button:hover:not(:disabled) {
+  background-color: #f97316;
+  color: #fff;
+}
+
+.arrow-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 .latest-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
+  flex-grow: 1;
+}
+
+.latest-card-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 .latest-card {
@@ -27,11 +49,13 @@
   padding: 10px;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 100%;
 }
 
 .latest-card:hover {
   transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .latest-card img {
@@ -53,21 +77,40 @@
   text-decoration: underline;
 }
 
-.pagination-dots {
-  margin-top: 12px;
+/* Pagination numbers */
+.pagination-numbers {
+  margin-top: 40px;
   text-align: center;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
-.dot {
-  display: inline-block;
-  height: 10px;
-  width: 10px;
-  background: #ccc;
-  border-radius: 50%;
-  margin: 0 4px;
+.page-button {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
   cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
 }
 
-.dot.active {
-  background: #f97316;
+.page-button:hover {
+  background-color: #f97316;
+  color: white;
+}
+
+.page-button.active {
+  background-color: #f97316;
+  color: white;
+  border-color: #f97316;
+}
+
+.page-ellipsis {
+  padding: 6px 8px;
+  color: #888;
+  font-weight: bold;
+  user-select: none;
 }
